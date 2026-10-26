@@ -1,32 +1,10 @@
-# React + TypeScript + Vite
+# Práctica 16
+**¿Por qué se usa un contexto y no props para la sesión?**
+Porque la sesión la usan varios componentes como el encabezado, las págs de entrar y registro.
+Si se usaran props se tendrían que ir pasando de componenete en componente, con el contexto cualquier componente que esté dentro del proveedor puede leer la sesión con useSesion().
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+**¿Qué pasa si un componente usa la sesión fuera del proveedor?**
+El contexto regresa null porque no hay un proveedor que le de valor. 
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
-
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+**¿Dónde se guarda el token y qué riesgo tiene ese lugar?**
+En localStorage del navegador para que la sesión siga al recargar la página. El riesgo que tiene es que cualquier script que corra en la página puede leerlo, entonces se podrían robar el token y usarlo para peticiones como si fueran el usuario real, aparte el token no está cifrado aún entonces pueden ver lo que tiene dentro.

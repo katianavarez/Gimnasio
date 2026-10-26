@@ -10,6 +10,12 @@ export const api = axios.create({
   timeout: 5000, // si en 5 s no responde, es error
 });
 
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});
+
 // El sobre de la Práctica 9B: toda respuesta exitosa llega como { data, meta }.
 export interface Sobre<T> {
   data: T;
