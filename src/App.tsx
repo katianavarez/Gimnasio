@@ -5,6 +5,8 @@ import { NoEncontrado } from './componentes/NoEncontrado'
 import PaginaClase from './paginas/PaginaClase'
 import PaginaEntrar from './paginas/PaginaEntrar'
 import PaginaRegistro from './paginas/PaginaRegistro'
+import { RutaProtegida } from './componentes/RutaProtegida'
+import PaginaMisInscripciones from './paginas/PaginaMisInscripciones'
 
 function App() {
   return (
@@ -20,6 +22,10 @@ function App() {
         <Route path='entrar' element={<PaginaEntrar></PaginaEntrar>}></Route>
         <Route path='registro' element={<PaginaRegistro></PaginaRegistro>}></Route>
         
+        <Route element= {<RutaProtegida/>}>
+          <Route path = "mis-inscripciones" element={<PaginaMisInscripciones/>}></Route>
+        </Route>
+
         <Route path='*' element={<NoEncontrado />}></Route>
       </Route>
     </Routes>
