@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { Sesion, Usuario } from "../tipos";
 import * as servicio from "../servicios/sesion"
 
@@ -41,7 +41,15 @@ export function ProveedorSesion({children}: {children: ReactNode}) {
         setUsuario(null);
     }
 
-    return(
+    useEffect(() => {
+        const alTerminar = () => setUsuario(null);
+
+        window.addEventListener('sesion-terminada', alTerminar);
+
+        return () => window.removeEventListener('sesion-terminada', alTerminar);
+    }, [])
+
+    return (
         <SesionContext value={{usuario, entrar, registrar, salir}}>
             {children}
         </SesionContext>
