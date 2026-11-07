@@ -1,3 +1,13 @@
+# Práctica 18
+**¿Cuánto se ahorró y por qué el ahorro es pequeño en esta aplicación?**
+Se ahorraron aproximadamente 5.5 kB, el archivo principal pasó de 320.95 kB a 315.40 kB. Es poco porque casi todo el peso son las librerías como React y Axios, que se necesitan en todas las páginas, y las páginas son muy pequeñas.
+
+**¿Por qué falla la API si el preview corre en el puerto 4173?**
+Por CORS. El backend solo permite peticiones desde http://localhost:5173 y para el navegador el 4173 es otro origen aunque sea el mismo localhost, entonces bloquea la respuesta.
+
+**¿Cuándo conviene un contexto y cuándo un store?**
+El contexto conviene para cosas que cambian poco, como la sesión, y el store para datos que cambian seguido y que usan varias páginas, como las inscripciones.
+
 # Práctica 16
 **¿Por qué se usa un contexto y no props para la sesión?**
 Porque la sesión la usan varios componentes y si se usaran props se tendrían que ir pasando de componenete en componente, en cambio con el contexto cualquier componente que esté dentro del proveedor puede leer la sesión con useSesion().

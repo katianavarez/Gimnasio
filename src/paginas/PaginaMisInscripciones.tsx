@@ -1,14 +1,14 @@
 import { Link } from "react-router";
 import { Cargando } from "../componentes/Cargando";
 import { MensajeError } from "../componentes/MensajeError";
-import { useMisInscripciones } from "../hooks/useMisInscripciones";
 import { urlImagen } from "../servicios/api";
+import { useInscripciones } from "../estado/inscripciones";
 
 export default function PaginaMisInscripciones() {
-    const { inscripciones, cargando, error, reintentar } = useMisInscripciones();
+    const { lista: inscripciones, cargando, error, cargar } = useInscripciones();
 
     if (cargando) return <Cargando />;
-    if (error) return <MensajeError mensaje={error} onReintentar={reintentar}/>
+    if (error) return <MensajeError mensaje={error} onReintentar={cargar}/>
 
     return (
         <>

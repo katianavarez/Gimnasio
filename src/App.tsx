@@ -1,12 +1,14 @@
+import { lazy } from 'react'
 import { Navigate, Route, Routes } from 'react-router'
 import { Layout } from './componentes/Layout'
-import PaginaClases from './paginas/PaginaClases'
 import { NoEncontrado } from './componentes/NoEncontrado'
-import PaginaClase from './paginas/PaginaClase'
-import PaginaEntrar from './paginas/PaginaEntrar'
-import PaginaRegistro from './paginas/PaginaRegistro'
 import { RutaProtegida } from './componentes/RutaProtegida'
-import PaginaMisInscripciones from './paginas/PaginaMisInscripciones'
+
+const PaginaClase = lazy(() => import ('./paginas/PaginaClase'));
+const PaginaClases = lazy(() => import ('./paginas/PaginaClases'));
+const PaginaEntrar = lazy(() => import ('./paginas/PaginaEntrar'));
+const PaginaRegistro = lazy(() => import ('./paginas/PaginaRegistro'));
+const PaginaMisInscripciones = lazy(() => import ('./paginas/PaginaMisInscripciones'));
 
 function App() {
   return (

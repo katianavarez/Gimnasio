@@ -6,6 +6,7 @@ import { estadoDeError, mensajeDeError, urlImagen } from "../servicios/api";
 import { useSesion } from "../sesion/SesionContext";
 import { useState } from "react";
 import { inscribirse } from "../servicios/gimnasio";
+import { useInscripciones } from "../estado/inscripciones";
 
 interface Aviso {
     tipo: 'exito' | 'error',
@@ -25,6 +26,9 @@ export default function PaginaClase() {
 
     const [aviso, setAviso] = useState<Aviso | null>(null);
 
+    const misInscripciones = useInscripciones((estado) => estado.lista);
+    const cargarInscripciones = useInscripciones((estado) => estado.cargar)
+
     if (cargando) return <Cargando/>;
     if(error) return <MensajeError mensaje={error ?? "Ocurrió un error al cargar la clase"} onReintentar={reintentar}/>;
 
@@ -40,8 +44,8 @@ export default function PaginaClase() {
 
         try {
             await inscribirse(horarioId);
-            setAviso({tipo: "exito", texto: "Te inscribiste a la clase."});
-            reintentar();
+            cargarInscripciones();
+            navegar('/mis-inscripciones');
         } catch(e) {
             if (estadoDeError(e) === 401) {
                 navegar("/entrar", {state: {desde: ubicacion.pathname}});
@@ -56,7 +60,7 @@ export default function PaginaClase() {
             <Link to="/clases" className="detalle__volver">← Todas las clases</Link>
 
             <article className="detalle">
-            <img className="detalle__imagen" src={urlImagen(clase.imagen)} alt={clase.nombre} />
+            <img className="detalle__imagen" src={urlImagen(clase.imagen)} alt={clase.nombre} loading="lazy"/>
             <div className="detalle__datos">
                 <span className="etiqueta etiqueta--fuerza">{clase.categoria}</span>
                 <h1>{clase.nombre}</h1>
@@ -71,7 +75,15 @@ export default function PaginaClase() {
                             <div className="horario__dia">{h.dia} · {h.horaInicio}</div>
                             <div className="horario__meta">{h.entrenador}· {h.disponibles} de {h.cupoMaximo} lugares</div>
                             </div>
-                            <button className="boton boton--chico" onClick={()=> inscribir(h.id)}>Inscribirme</button>
+                            {
+                                misInscripciones.some((i) => i.horario.id === h.id) ? (
+                                    <span>Ya estás inscrito.</span>
+                                ) : h.disponibles === 0 ? (
+                                    <span>Cupo lleno.</span>
+                                ) : (
+                                    <button className="boton boton--chico" onClick={()=> inscribir(h.id)}>Inscribirme</button>
+                                )
+                            }
                         </li>
                 ))
 

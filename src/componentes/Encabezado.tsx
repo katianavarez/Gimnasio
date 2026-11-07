@@ -3,6 +3,7 @@
 // pinta el enlace activo sin una línea de JavaScript propio.
 import { Link, NavLink } from 'react-router';
 import { useSesion } from '../sesion/SesionContext';
+import { useInscripciones } from '../estado/inscripciones';
 
 // La clase del enlace según si está activo o no.
 function claseEnlace({ isActive }: { isActive: boolean }) {
@@ -11,6 +12,8 @@ function claseEnlace({ isActive }: { isActive: boolean }) {
 
 export function Encabezado() {
   const {usuario, salir} = useSesion();
+
+  const total = useInscripciones((estado) => estado.lista.length);
 
   return (
     <header className="barra">
@@ -23,7 +26,10 @@ export function Encabezado() {
         <nav>
           <ul className="barra__enlaces">
             <li><NavLink to="/clases" className={claseEnlace}>Clases</NavLink></li>
-            <li><NavLink to="/mis-inscripciones" className={claseEnlace}>Mis inscripciones</NavLink></li>
+            <li><NavLink to="/mis-inscripciones" className={claseEnlace}>
+            Mis inscripciones
+            {usuario && <span className='barra__contador'>{total}</span>}
+            </NavLink></li>
           </ul>
         </nav>
 
