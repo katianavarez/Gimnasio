@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { Sesion, Usuario } from "../tipos";
 import * as servicio from "../servicios/sesion"
+import { useInscripciones } from "../estado/inscripciones";
 
 interface ValorSesion {
     usuario: Usuario | null;
@@ -40,6 +41,11 @@ export function ProveedorSesion({children}: {children: ReactNode}) {
         localStorage.removeItem("usuario");
         setUsuario(null);
     }
+
+    useEffect(() => {
+        if(usuario) useInscripciones.getState().cargar();
+        else useInscripciones.getState().vaciar();
+    }, [usuario])
 
     useEffect(() => {
         const alTerminar = () => setUsuario(null);
